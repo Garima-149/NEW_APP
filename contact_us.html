@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@400..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('serve_static', filename='contact_us.css') }}">
+</head>
+<style>
+    /* Scrollbar background */
+    ::-webkit-scrollbar {
+        width: 12px;
+    }
+
+    /* Scrollbar track (background) */
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    /* Scrollbar thumb (the part you can drag) */
+    ::-webkit-scrollbar-thumb {
+        background-color: black;
+        border-radius: 10px;
+        border: 2px solid #f1f1f1;
+    }
+
+    /* Scrollbar thumb when hovered */
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: #555;
+    }
+    @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+                
+            }
+
+            .photo_main {
+                flex-direction: column;
+                align-items: center;
+                margin-left: 2rem;
+            }
+
+            .content img {
+                width: 150px;
+                height: 150px;
+            }
+
+            .content a {
+                font-size: 1.1rem;
+            }
+
+            #box p {
+                font-size: 1.1rem;
+            }
+        }
+
+      
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2rem;
+                margin-left: 3rem; 
+            }
+
+            .content img {
+                width: 120px;
+                height: 170px;
+                margin-left: 2rem;
+            }
+
+            .content a {
+                font-size: 1rem;
+                margin-left: 2rem;
+                margin-top: -60rem;
+            }
+
+            #box p {
+                font-size: 2rem;
+                padding-left: 0px;
+                padding-right: 0px;
+                margin-left: 40px;
+                margin-right: -45px;
+            }
+            #box{
+                 height: 60px;
+                 padding-left: 0px;
+                 padding-right: 0px;
+            } 
+            body {
+                padding: 10px;
+            }
+        }
+
+   </style> 
+
+
+
+<body>
+    <h1>CONTACT US</h1>
+    <div class="photo">
+        <div class="photo_main">
+            <div class="content">
+                <div id="bhavya">
+                    <img src="{{ url_for('serve_static', filename='bhavya.jpg') }}" alt="">
+                </div>
+                <a href="https://www.linkedin.com/in/bhavya-gupta-2967a4286/">Let's Connect</a>
+            </div>
+            <div class="content">
+                <div id="dakshita">
+                    <img src="{{ url_for('serve_static', filename='dakshita.jpeg') }}" alt="">
+                </div>
+                <a href="https://www.linkedin.com/in/dakshita-agrawal-856227294/" >Let's Connect</a>
+            </div>
+            <div class="content">
+                <div id="garima">
+                    <img src="{{ url_for('serve_static', filename='garima.jpeg') }}" alt="">
+                </div>
+                <a href="https://www.linkedin.com/in/garima-chandra-476377288/">Let's Connect</a>
+            </div>
+        </div>
+        <div id="box">
+            <p class="content">
+                Hello! We are currently pursuing our engineering from IGDTUW, Delhi. Currently we are in our second year of the B.TECH CSE Program. We are passionate of the ever evolving technology and our aim to build Diagno Future was to provide a solution that uses Artificial Intelligence to solve a problem of the healthcare domain. We, Syntax Squad have developed a solution that predicts diseases based on symptoms you are having using the Random Forest model!
+            </p>
+        </div>
+    </div>
+</body>
+</html>

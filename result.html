@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Result</title>
+    <!-- Link CSS using url_for to ensure correct path -->
+    <link rel="stylesheet" href="{{ url_for('serve_static', filename='predict.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@400..800&display=swap" rel="stylesheet">
+</head>
+<style>
+    /* Scrollbar background */
+    ::-webkit-scrollbar {
+        width: 12px;
+    }
+
+    /* Scrollbar track (background) */
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    /* Scrollbar thumb (the part you can drag) */
+    ::-webkit-scrollbar-thumb {
+        background-color: black;
+        border-radius: 10px;
+        border: 2px solid #f1f1f1;
+    }
+
+    /* Scrollbar thumb when hovered */
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: #555;
+    }
+
+
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    .chat-container {
+        width: 400px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background: white;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .chat-box {
+        height: 300px;
+        overflow-y: auto;
+        padding: 10px;
+        border-bottom: 1px solid #ccc;
+    }
+
+    input {
+        width: calc(100% - 50px);
+        padding: 10px;
+        border: none;
+        border-top: 1px solid #ccc;
+    }
+
+    button {
+        padding: 10px;
+        border: none;
+        background-color: #007bff;
+        color: white;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+
+
+    @media (max-width: 480px) {
+        h1 {
+            font-size: 1.8rem;
+            margin-left: 10rem;
+            margin-right: -500px;
+            padding: 0px 0px;
+        }
+
+        p {
+            font-size: 1rem;
+            margin-left: 0rem;
+            margin-right: -700px;
+            padding: 0px 0px;
+        }
+
+        .main {
+            padding: 10px;
+            margin-left: 150px;
+        }
+
+        label {
+            font-size: 1rem;
+        }
+
+        button {
+            font-size: 0.9rem;
+            padding: 8px;
+            width: 10rem;
+            margin-left: 20px;
+        }
+
+        body {
+            height: 330vh;
+            width: 107vw;
+        }
+
+
+    }
+
+    @media (max-width: 768px) {
+        h1 {
+            font-size: 2rem;
+        }
+
+        p {
+            font-size: 1.1rem;
+        }
+
+        .main {
+            padding: 15px;
+        }
+
+        label {
+            font-size: 1.1rem;
+        }
+
+        button {
+            font-size: 1rem;
+            padding: 8px;
+
+        }
+
+    }
+</style>
+
+<body>
+
+    <h1>Results</h1>
+    <p>Here is the prediction based on your provided symptoms.</p>
+    <div class="absmain">
+
+        <div class="main">
+
+            You are suffering from: <strong>{{prediction}}</strong>
+
+
+
+            <div>
+
+            </div>
+            <p>Want to know more on predicted disease? Click on the API-Integrated Chatbot which will help you getting
+                informed and cured by this disease.</p>
+
+            <div class="chat-container">
+                <div class="chat-box" id="chat-box"></div>
+                <input type="text" id="user-input" placeholder="Type a message..." />
+                <button id="send-btn">Send</button>
+            </div>
+
+            <script>
+                const chatBox = document.getElementById('chat-box');
+                const userInput = document.getElementById('user-input');
+                const sendBtn = document.getElementById('send-btn');
+
+                // Event listener for the 'Send' button click
+                sendBtn.addEventListener('click', async () => {
+                    const userMessage = userInput.value.trim(); // Get the user message
+                    if (!userMessage) return; // Prevent sending empty messages
+
+                    addMessage('You: ' + userMessage); // Display user message
+                    userInput.value = ''; // Clear input box
+
+                    // Call the backend API to get chatbot response
+                    const responseMessage = await getChatbotResponse(userMessage);
+                    addMessage('Bot: ' + responseMessage); // Display chatbot response
+                });
+
+                // Function to append a message to the chat
+                function addMessage(message) {
+                    const messageElement = document.createElement('div');
+                    messageElement.textContent = message;
+                    chatBox.appendChild(messageElement);
+                    chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll to the bottom of the chat
+                }
+
+                // Function to make API call to the backend for chatbot response
+                // Function to make API call to the backend for chatbot response
+                async function getChatbotResponse(message) {
+                    try {
+                        const response = await fetch('/api/chat', {
+                            method: 'PUT',
+                            headers: {
+                                'Content-Type': 'application/json', // Send JSON data
+                            },
+                            body: JSON.stringify({ message }), // Send the user message
+                        });
+
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+
+                        const data = await response.json(); // Parse JSON response
+                        return data.reply || "Sorry, something went wrong."; // Get chatbot's reply or error message
+                    } catch (error) {
+                        console.error('Error:', error); // Log any error that occurs
+                        return "Sorry, there was an issue connecting to the server.";
+                    }
+                }
+
+            </script>
+
+
+</body>
+
+</html>
